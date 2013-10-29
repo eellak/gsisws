@@ -1,0 +1,56 @@
+Για να χρησιμοποιηθεί το WS για σκοπούς περαιτέρω ανάπτυξης:
+
+A. Περιβάλλον
+--------------
+1. Δεν απαιτείται IDE. To automation tool που χρησιμοποιηθηκε είναι το ant. Αυτό έγινε για ευκολία κλήσης του παραγώμενου ant script από το axis2.
+Ωστόσο μπορεί σε δευτερη φάση να αλλάξει σε maven ή και gradle. Επίσης παίζει όπως ειναι και σε windows και σε linux (Σε αυτά το έχω δοκιμάσει).
+Τέλος για λόγους ανάπτυξης χρησιμοποιηθηκε Tomcat και έγινε και deployment se weblogic περιβάλλον για λόγους ελέγχου.
+2. Θα πρέπει να δηλωθούνε λόγω ant κάποια system vars. Αυτά είναι:
+a. CATALINA_HOME (Το dir που έχετε τον Tomcat)
+β. ΑΝΤ_ΗΟΜΕ (Το dir που έχετε τον ant)
+γ. ANT_OPTS (Καλό είναι να δηλώσετε -Xms256M -Xmx512M)
+δ. AXIS2_HOME (Το dir που έχετε τον axis2)
+ε. JAVA_HOME  (Το dir που έχετε το JDK. Java 6 και πάνω).
+στ. Στο PATH να δηλωθεί επίσης το $JAVA_HOME/bin
+
+B. Ant targets
+---------------
+1. Ουσιαστικά σε επίπεδο development χρειάζεται μόνο να εκτελείτε το t-webservice-start-dev target. Αυτό κανει build, package το WS
+και σηκώνει τον Tomcat όπου και κάνει deploy το service. Αν θέλετε να κάνετε debug το project χρησιμοποιηστε το
+t-webservice-debug-dev. Για να γίνει αυτό προσθέστε στον $CATALINA_HOME/bin directory to script debug.bat ή debug.sh ανάλογα το OS. Αυτά 
+είναι διαθέσιμα στο ellak/docs/misc/scripts.
+Μόλις σηκώσετε το service, μπορείτε να δείτε το sample WSDL:
+http://localhost:8080/gsisws/services/GsisService?wsdl
+2.  Για να κάνετε μία κλήση μπορείτε να χρησιμοποιήσετε το SoapUI. Δημιουργείστε ενα Soap project φoρτώνοντας το WSDL (GsisService-template.wsdl)
+που βρίσκεται στο  ellak/gsisws/src/org/ellak/gsisws/config/
+3. Ενα sample request (sample_soap_req.txt) θα βρείτε στο ellak/docs/misc/. Θα πρέπει να δηλώσετε ένα εγκυρο ΑΦΜ για να πάρετε ενα valid respone.
+
+Γ. Παραδοχές
+-------------
+1. To xsd και το WSDL είναι αυθαίρετα.
+2. Εχει υλοποιηθεί στο data layer module service για να ρωτάει το μητρώο την πληροφορία. Προφανώς τωρα ρωτάει ασχετα.
+3. Αν το authentication γινει από stored procedure έχει υλοποιηθεί και αυτη αλλά ρωτάει ασχετα.
+4. Αν απaιτηθεί ldap authentication παρακαλώ να μας γνωστοποιηθεί γιατι εχει καποια δουλιτσα αυτο.
+5. Αν απαιτηθεί μόνο Oracle SSO authentication, μπορεί κάλιστα να ξηλωθεί όλο το security του WS (δεν χρειάζεται).
+6. Για το ερώτημα στο μητρώο χρησιμοποιηθηκε Spring JDBC. Αν βαρύνει η δουλεια με την βάση τοτε να περάσουμε σε hibernate.
+7. Σαν IoC εχει χρησιμοποιηθεί το spring Framework.
+
+Δ. Εκκρεμή ζητήματα.
+---------------------
+Για ΓΓΠΣ:
+1. Χρειαζόμαστε το creation script του view του μητρώου για να δουμε και τα columns που έχει γιατι θα επηρεάσουν το xsd.
+2. Χρειαζόμαστε το oracle connect string του παραγωγικού περιβάλλοντος για να γινεται configure to WS για παραγωγή.
+3. Θα πρέπει να συμφωνηθεί ποιό θα είναι to παραγωγικό URL του WS στο περιβάλλον παραγωγής.
+4. Αναφορικά με το authentication procedure. Αν στην παραγωγή υπάρχει Oracle SSO αυτό σημαινει οτι κανει αυτό την δουλειά του authentication.
+Κατά συνέπεια το μόνο που χρειάζεται είναι να γίνει απλά register το URL του WS όπου απλά θα παρέχεται στο WS o remote user μετά το authentication.
+Αυτή είναι δουλειά που υπεκφεύγει του development και είναι καθαρά θέμα configuration του Oracle SSO. To WS απλά θα κανει μια κληση
+στο doPost του servlet, request.getRemoteUser() και τέλος.  Ωστόσο αν απαιτηθεί να κάνει authentication to WS τότε:
+α. Αν υπάρχει διαθέσιμη PL/SQL tored procedure που μπορεί να δοθεί από την ΓΓΠΣ μπορεί να χρησιμοποιηθεί αυτή.
+β. Σε περίπτωση που δεν υπάρχει τετοια stored procedure τότε μπορεί να γινει προσπέλαση στον Oracle LDAP (υπάρχει jar που δινει η Oracle)
+και μπορεί να γινει απο εκεί το authentication. Σε αυτήν την περίπτωση θα χρειαστεί να δωθούν απο την ΓΓΠΣ  τα στοιχεία σύνδεσης στο παραγωγικό Oracle
+LDAP.
+Για ΕΛΛΑΚ:
+Πρέπει να στηθεί υποδομή προσβάσιμη σε όλα τα μέλη της ομάδας για subversion, tomcat ή και Jboss ή και Weblogic.
+
+
+Ελπίζω οτι δεν έχω ξεχάσει κάτι προς το παρόν. Διαθέσιμος για οποιαδήποτε απορία/ερώτηση.
