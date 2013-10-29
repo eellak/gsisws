@@ -34,6 +34,11 @@ http://localhost:8080/gsisws/services/GsisService?wsdl
 5. Αν απαιτηθεί μόνο Oracle SSO authentication, μπορεί κάλιστα να ξηλωθεί όλο το security του WS (δεν χρειάζεται).
 6. Για το ερώτημα στο μητρώο χρησιμοποιηθηκε Spring JDBC. Αν βαρύνει η δουλεια με την βάση τοτε να περάσουμε σε hibernate.
 7. Σαν IoC εχει χρησιμοποιηθεί το spring Framework.
+8. Στο github δεν εχουν ανεβει τα required libraries. Οι εκδόσεις ειναι οι ακόλουθες:
+    i)    Axis2 (1.5.2)
+    ii)   Spring Framework (3.1.1)
+    iii)  Rampart (για έκδοση 1.5.2 Axis2)
+    iv)   Oracle (Jar 1.4)
 
 Δ. Εκκρεμή ζητήματα.
 ---------------------
