@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 	
+		Author: George Lamprakis (glam)
+		Date: Oct 28, 2013
+		Description: common module build file.
+		Info:
+			app.name: The module name
+			dir.src: Source dir for the pure java compilation.
+			dir.build: Destination dir for the pure java compilation.
+			dir.dist: the distribution file (jar) ...
+			dir.lib: Libraries used by the common module.
+			main.lib: Libraries used by the all modules.			
+-->
+<project basedir="." default="dist" name="Common module">
+	<description>Common module</description>
+	<!-- Global Properties -->
+	<property environment="env"/>
+	<!-- INITIALIZATION -->
+	<target name="init" depends="check-tomcat">
+		<property file="${basedir}/build.properties"/>
+		<property name="dir.src"         				value="${basedir}/src"/>
+		<property name="dir.build"         				value="${basedir}/build"/>
+		<property name="dir.dist"						value="${basedir}/dist"/>
+		<property name="dir.conf"						value="${dir.src}/org/ellak/common/config"/>
+		<!-- libraries -->
+		<property name="main.lib" 						value="${basedir}/../lib"/>
+		<!-- distros -->
+		<property name="common.jar"						value="${app.name}.jar"/>
+		<!-- create the output dirs -->
+		<mkdir dir="${dir.build}"/>
+		<mkdir dir="${dir.dist}"/>
+		<!-- define the classpath -->
+		<path id="classpath.all">			
+			<fileset dir="${main.lib}">
+				<include name="**/*.jar"/>
+			</fileset>
+			<fileset dir="${server.lib}" includes="**/*.jar"/>				
+			<pathelement path="${server.path}"/>
+			<pathelement path="${dir.build}"/>
+		</path>
+	</target>	
+	
+	<!-- TOMCAT INITIALIZATION, INTERNAL-USE -->	
+		<target name="check-tomcat">
+	        <!-- tomcat home -->
+	        <property name="server.home" value="${env.CATALINA_HOME}"/>
+	        <!-- check for Tomcat Servlet API from binary distribution -->
+	        <echo message="server.home: ${server.home}"/>
+	        <available property="server.lib" value="${server.home}/lib" file="${server.home}/lib/servlet-api.jar"/>
+	        <fail message="Set CATALINA_HOME in your environment." unless="server.lib"/>
+	        <path id="server.path">
+	            <fileset dir="${server.lib}" includes="**/*.jar"/>
+	        </path>   
+	        <echo message="server.lib: ${server.lib}"/>
+	 	</target>
+
+	<!-- COMPILE -->
+	<target name="compile" depends="init">	
+		<javac debug="true" deprecation="true" destdir="${dir.build}" encoding="UTF-8">
+			<classpath>
+				<path refid="classpath.all"/>
+			</classpath>
+			<src>
+				<pathelement path="${dir.src}"/>
+			</src>
+		</javac>
+	</target>
+	
+	<!-- ASSEMBLE-JAR -->
+	<target name="assemble-jar" depends="compile">
+		<delete file="${dir.dist}/${common.jar}"/>
+		<jar destfile="${dir.dist}/${common.jar}" basedir="${dir.build}">
+			<zipfileset file="${dir.conf}/common-config.xml" prefix="org/ellak/common/config"/>				
+		</jar>			
+	</target>		
+	
+	<!-- DIST -->
+	<target name="dist" depends="assemble-jar">
+	</target>	
+	
+	<!-- CLEAN -->
+	<target name="clean" depends="init" description="Clean common.">		
+		<!-- Clean the module -->
+		<delete dir="${dir.build}"/>
+		<delete dir="${dir.dist}"/>
+	</target>	
+	
+</project>

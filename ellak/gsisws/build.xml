@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 	
+		Author: George Lamprakis (glam)
+		Date: Oct 28, 2013
+		Description: gsisws module build file.
+		Info:
+			app.name: The module name
+			dir.src: Source dir for the pure java compilation.
+			dir.build: Destination dir for the pure java compilation.
+			dir.dist: the distribution file (jar) ...
+			dir.lib: Libraries used by the gsisws module.
+			main.lib: Libraries used by the all modules.
+			gsisws.aar: The axis2 distribution file name.
+			dir.common: The common module main dir.
+			dir.datalayer: The backend module main dir.		
+			dir.common.build: The common module build dir.
+			dir.datalayer.build: The backend module build dir.		
+-->
+<project basedir="." default="dist-dev" name="gsisws module">
+	<description>GsisWS module</description>
+	<property environment="env"/>
+	<property file="${basedir}/build.properties"/>
+	<!-- INITIALIZATION -->
+	<target name="init" depends="check-tomcat">		
+		<property name="axis2.home" 					value="${env.AXIS2_HOME}"/>
+		<!-- deploy specific properties -->
+		<property name="dir.gsisws"         			value="${basedir}"/>
+        <property name="dir.deploy.catalina"            value="${env.CATALINA_HOME}/webapps/"/>
+		<property name="dir.src"         				value="${basedir}/src"/>
+		<property name="dir.web"         				value="${basedir}/web"/>
+		<property name="dir.config"       				value="${dir.src}/org/ellak/gsisws/config"/>		
+		<property name="dir.srcgen"						value="${basedir}/srcgen"/>
+		<property name="file.service.xml"				value="${dir.srcgen}/resources/services.xml"/>
+		<property name="dir.schema"						value="${dir.config}/xsd"/>
+		<property name="dir.xslt"						value="${dir.config}/xsl"/>
+		<property name="file.policies.xslt" 			value="${dir.xslt}/USNToken.xsl"/>
+		<property name="dir.build"         				value="${basedir}/build"/>
+		<property name="dir.build.server"         		value="${dir.build}/mou/gsisws/server"/>
+		<property name="dir.build.client"         		value="${dir.build}/mou/gsisws/client"/>
+		<property name="dir.dist"						value="${basedir}/dist"/>		
+		<!-- libraries -->
+		<property name="main.lib" 						value="${basedir}/../lib"/>
+		<!-- dependencies -->
+		<property name="dir.common" 					value="${basedir}/../common"/>
+		<property name="dir.datalayer"					value="${basedir}/../datalayer"/>		
+		<!-- dependencies build -->
+		<property name="dir.common.build" 				value="${basedir}/../common/build"/>				
+		<property name="dir.datalayer.build"			value="${basedir}/../datalayer/build"/>
+		<!-- dependencies dist -->
+		<property name="dir.common.dist" 				value="${basedir}/../common/dist"/>						
+		<property name="dir.datalayer.dist"				value="${basedir}/../datalayer/dist"/>	
+		<!-- deployment profiles -->
+		<property name="dir.web.config"					value="${dir.web}/WEB-INF/conf"/>
+		<property name="dir.web.xslt"					value="${dir.web.config}/xsl"/>
+		<property name="file.template.profile"			value="${dir.web.config}/ws-template-config.xml"/>
+		<property name="file.profile"					value="${dir.web.config}/ws-config.xml"/>
+		<property name="ss.file.dev.profile"			value="${dir.web.xslt}/ws-development-profile.xsl"/>
+		<property name="ss.file.prod.profile"			value="${dir.web.xslt}/ws-production-profile.xsl"/>
+		
+		<property name="file.wsdl.template"				value="${dir.schema}/GsisService-template.wsdl"/>
+		<property name="ss.file.dev.wsdl"				value="${dir.xslt}/wsdl-dev.xsl"/>
+		<property name="ss.file.prod.wsdl"				value="${dir.xslt}/wsdl-prod.xsl"/>
+		
+		<!-- check for axis2-ant-plugin-1.5.2.jar from binary distribution -->
+		<available property="axis2.lib" value="${axis2.home}/lib" file="${axis2.home}/lib/axis2-ant-plugin-1.5.2.jar"/>
+		<fail message="Set AXIS2_HOME in your environment (Axis2 v.1.5.2)." unless="axis2.lib" />
+		<path id="axis2.path">
+			<fileset dir="${axis2.lib}" includes="*.jar" />
+		</path>
+		<taskdef name="axis2-wsdl2java" classname="org.apache.axis2.tool.ant.AntCodegenTask" classpathref="axis2.path"/>
+		
+		<property name="war.file" value="${app.name}.war"/>
+		<property name="jar.client.file" value="${app.name}-client.jar"/>
+		
+		<!-- create the output dirs -->
+		<mkdir dir="${dir.build}"/>
+		<mkdir dir="${dir.srcgen}"/>
+		<mkdir dir="${dir.dist}"/>		
+		<!-- define the classpath -->
+		<path id="classpath.all">
+			<fileset dir="${main.lib}">
+				<include name="**/*.jar"/>
+			</fileset>
+			<pathelement path="${axis2.path}"/>
+			<pathelement path="${dir.build}"/>
+			<pathelement path="${dir.common.build}"/>			
+			<pathelement path="${dir.datalayer.build}"/>
+		</path>
+	</target>
+	
+	<!-- TOMCAT INITIALIZATION, INTERNAL-USE -->	
+	<target name="check-tomcat">
+        <!-- tomcat home -->
+        <property name="server.home" value="${env.CATALINA_HOME}"/>
+        <!-- check for Tomcat Servlet API from binary distribution -->
+        <echo message="server.home: ${server.home}"/>
+        <available property="server.lib" value="${server.home}/lib" file="${server.home}/lib/servlet-api.jar"/>
+        <fail message="Set CATALINA_HOME in your environment." unless="server.lib"/>
+        <path id="server.path">
+            <fileset dir="${server.lib}" includes="**/*.jar"/>
+        </path>   
+        <echo message="server.lib: ${server.lib}"/>
+ 	</target>
+	
+	<!-- CHECK-SERVER-RUN, INTERNAL-USE -->
+    <target name="check-server-run" description="Check if Application Server is running">
+        <echo message="Checking if Application Server is running"/>
+        <condition property="server.running">
+            <socket server="${t.server.admin.host}" port="${t.server.admin.port}"/>
+        </condition>
+        <antcall target="server-running"/>
+        <antcall target="server-not-running"/>
+    </target>
+		   
+    <!-- INTERNAL-USE -->
+    <target name="server-running" if="server.running">
+        <echo message="Application Server is running at ${t.server.admin.host}:${t.server.admin.port}."/>
+    </target>
+		   
+    <!-- INTERNAL-USE -->
+    <target name="server-not-running" unless="server.running">
+        <fail message="Application Server is not running at ${t.server.admin.host}:${t.server.admin.port}."/>
+    </target>
+	
+	<!-- CHECK-CATALINA-ANT-SUPPORT, INTERNAL-USE -->
+    <target name="check-tomcat-ant-support" description="Check for tomcat deployment support for ant.">
+        <!-- check for catalina-ant.jar in ANT_HOME/lib -->
+        <available property="catalina.ant" value="${env.ANT_HOME}/lib" file="${env.ANT_HOME}/lib/catalina-ant.jar"/>
+        <fail message="No Ant support from Tomcat. Please copy 'catalina-ant.jar' from ${env.CATALINA_HOME}/lib in ${env.ANT_HOME}/lib" unless="catalina.ant"/>
+        <echo message="Catalina Ant support OK."/>       
+    </target>
+	
+	<!-- TOMCAT DEVELOPMENT -->
+			
+	<!-- T-LOCAL-DEPLOY-DEV -->   
+	<target name="t-local-deploy-dev"
+        depends="dist-dev"
+        description="Deploy localy web app to tomcat instance.">
+        <condition property="t.server.running">
+             <socket server="${t.server.admin.host}" port="${t.server.admin.port}"/>
+        </condition>
+        <fail message="Server is running on ${t.server.admin.host}:${t.server.admin.port}. Please stop the server." if="t.server.running"/>
+        <copy file="${dir.dist}/${war.file}" todir="${dir.deploy.catalina}" overwrite="true"/>
+	</target>
+	
+	<!-- T-LOCAL-DEPLOY-PROD -->   
+	<target name="t-local-deploy-prod"
+        depends="dist-prod"
+        description="Deploy localy web app to tomcat instance.">
+        <condition property="t.server.running">
+             <socket server="${t.server.admin.host}" port="${t.server.admin.port}"/>
+        </condition>
+        <fail message="Server is running on ${t.server.admin.host}:${t.server.admin.port}. Please stop the server." if="t.server.running"/>
+        <copy file="${dir.dist}/${war.file}" todir="${dir.deploy.catalina}" overwrite="true"/>
+	</target>	
+
+	<!-- T-LOCAL-UNDEPLOY -->
+    <target name="t-local-undeploy"
+         depends="init"
+         description="Undeploy localy web app to tomcat instance.">
+         <condition property="t.server.running">
+              <socket server="${t.server.admin.host}" port="${t.server.admin.port}"/>
+         </condition>
+         <fail message="Server is running on ${t.server.admin.host}:${t.server.admin.port}. Please stop the server." if="t.server.running"/>
+         <delete dir="${dir.deploy.catalina}/${app.name}"/>
+         <delete file="${dir.deploy.catalina}/${war.file}"/>   
+    </target>
+
+    <!-- T-LOCAL-REDEPLOY-DEV -->
+	<target name="t-local-redeploy-dev"
+       depends="t-local-undeploy, t-local-deploy-dev"
+       description="Redeploy localy tomcat web application.">       
+	</target>
+	
+	<!-- T-LOCAL-REDEPLOY-PROD -->
+	<target name="t-local-redeploy-prod"
+       depends="t-local-undeploy, t-local-deploy-prod"
+       description="Redeploy localy tomcat web application.">       
+	</target>
+		
+	<condition property="t.startup.server.script" value="startup.bat" else="startup.sh">
+		<os family="windows"/>
+	</condition>
+		   
+	<condition property="t.shutdown.server.script" value="shutdown.bat" else="shutdown.sh">
+        <os family="windows"/>
+    </condition>
+		   
+	<condition property="t.debug.server.script" value="debug.bat" else="debug.sh">
+		<os family="windows"/>
+	</condition>
+		   
+   	<!-- T-START-SERVER -->
+	<target name="t-server-start"
+		depends="init"
+		description="Start tomcat server." if="t.startup.server.script">
+		<echo message="Starting tomcat ..."/>
+		<available property="catalina.start" value="${env.CATALINA_HOME}/bin" file="${env.CATALINA_HOME}/bin/${t.startup.server.script}"/>
+		<fail message="No startup script found." unless="catalina.start"/>
+		<condition property="t.server.running">
+			<socket server="${t.server.admin.host}" port="${t.server.admin.port}"/>
+		</condition>
+        <fail message="Server is already running at ${t.server.admin.host}:${t.server.admin.port}." if="t.server.running"/>
+        <exec command="${catalina.start}/${t.startup.server.script}" spawn="true"/>
+	</target>
+
+    <!-- T-STOP-SERVER -->
+    <target name="t-server-stop"
+		depends="t-check-server-run, init"
+		description="Stop tomcat server." if="t.shutdown.server.script">
+		<echo message="Shutting down tomcat ..."/>
+		<available property="catalina.stop" value="${env.CATALINA_HOME}/bin" file="${env.CATALINA_HOME}/bin/${t.shutdown.server.script}"/>
+		<fail message="No shutdown script found." unless="catalina.stop"/>           
+		<exec executable="${catalina.stop}/${t.shutdown.server.script}" spawn="true"/>       
+    </target>
+		   
+    <!-- T-STOP-SERVER, NO-RUNNING-STATUS-CHECK -->
+    <target name="t-server-stop-no-check"
+		depends="init"
+		description="Stop tomcat server regardless running status." if="t.shutdown.server.script">
+		<echo message="Stopping tomcat ..."/>
+		<available property="catalina.stop" value="${env.CATALINA_HOME}/bin" file="${env.CATALINA_HOME}/bin/${t.shutdown.server.script}"/>
+		<fail message="No shutdown script found." unless="catalina.stop"/>           
+		<exec executable="${catalina.stop}/${t.shutdown.server.script}" spawn="true"/>       
+	</target>
+
+	<!-- T-DEBUG-SERVER -->
+	<target name="t-server-debug"
+		depends="init"
+		description="Debug tomcat server." if="t.debug.server.script">
+		<echo message="Starting tomcat in debug mode ..."/>
+		<available property="catalina.debug" value="${env.CATALINA_HOME}/bin" file="${env.CATALINA_HOME}/bin/${t.debug.server.script}"/>
+		<fail message="No debug script found." unless="catalina.debug"/>
+		<condition property="server.running">
+			<socket server="${t.server.admin.host}" port="${t.server.admin.port}"/>
+		</condition>
+		<fail message="Server is already running at ${t.server.admin.host}:${t.server.admin.port}." if="server.running"/>
+		<exec executable="${catalina.debug}/${t.debug.server.script}" spawn="true"/>
+	</target>
+	
+	<!-- T-CHECK-SERVER-RUN, INTERNAL-USE -->
+	<target name="t-check-server-run" description="Check if Application Server is running">
+		<echo message="Checking if Application Server is running"/>
+		<condition property="server.running">
+			<socket server="${t.server.admin.host}" port="${t.server.admin.port}"/> 
+		</condition>
+		<antcall target="server-running"/>
+		<antcall target="server-not-running"/>
+	</target>
+	
+	<!-- T-WS-START-DEV -->
+    <target name="t-webservice-start-dev"
+		depends="t-server-stop-no-check, t-local-redeploy-dev, t-server-start"
+		description="Start gsisws Web service.">
+    </target>
+	
+	<!-- T-WS-START-PROD -->
+    <target name="t-webservice-start-prod"
+		depends="t-server-stop-no-check, t-local-redeploy-prod, t-server-start"
+		description="Start gsisws Web service.">
+    </target>
+		   
+    <!-- T-WS-STOP -->
+    <target name="t-webservice-stop" depends="t-server-stop">
+    </target>
+		   
+    <!-- T-WS-DEBUG-DEV -->
+    <target name="t-webservice-debug-dev"
+		depends="t-server-stop-no-check, t-local-redeploy-dev, t-server-debug"
+		description="Debug gsisws Web Service.">
+    </target>
+	
+    <!-- T-WS-DEBUG-PROD -->
+    <target name="t-webservice-debug-prod"
+		depends="t-server-stop-no-check, t-local-redeploy-prod, t-server-debug"
+		description="Debug gsisws Web Service.">
+    </target>
+
+	<!-- COMPILE -->
+	<target name="compile" depends="init, compile-dep, confsecurity">
+		<javac debug="true" deprecation="true" destdir="${dir.build}" encoding="UTF-8">
+			<classpath>
+				<path refid="classpath.all"/>
+			</classpath>
+			<src>
+				<pathelement path="${dir.srcgen}:${dir.src}"/>
+			</src>
+		</javac>			
+	</target>
+	
+	<!-- COMPILE-DEPENDENCIES -->
+	<target name="compile-dep" depends="init">
+		<ant dir="${dir.common}" inheritAll="false" target="compile"/>	   
+		<ant dir="${dir.datalayer}" inheritAll="false" target="compile"/>
+	</target>
+	
+	<!-- DIST-DEPENDENCIES -->
+	<target name="dist-dep" depends="compile-dep">
+		<ant dir="${dir.common}" inheritAll="false" target="dist"/>	   
+		<ant dir="${dir.datalayer}" inheritAll="false" target="dist"/>
+	</target>
+	
+	<!-- WSDL2JAVA -->
+	<target name="wsdl2java" depends="init">
+		<axis2-wsdl2java wsdlfilename="${dir.schema}/${svc.name}.wsdl" 
+			output="${dir.srcgen}"
+			serverside="true"
+			serversideinterface="true"
+			generateservicexml="true"
+			suppressPrefixes="true">
+		</axis2-wsdl2java>		
+	</target>
+	
+	<!-- CONF-DEV-WSDL -->
+	<target name="conf-dev-wsdl" depends="init">
+		<xslt 	in="${file.wsdl.template}"
+				out="${dir.schema}/${svc.name}.wsdl"
+				style="${ss.file.dev.wsdl}"/>
+	</target>
+		
+	<!-- CONF-PROD-WSDL -->
+	<target name="conf-prod-wsdl" depends="init">
+		<xslt 	in="${file.wsdl.template}"
+				out="${dir.schema}/${svc.name}.wsdl"
+				style="${ss.file.prod.wsdl}"/>
+	</target>
+	
+	<!-- CONFSECURITY -->
+	<target name="confsecurity" depends="wsdl2java">
+		<xslt 	in="${file.service.xml}"
+				out="${file.service.xml}.tmp"
+				style="${file.policies.xslt}"/>
+		<copy 	file="${file.service.xml}.tmp" tofile="${file.service.xml}" overwrite="true"/>
+		<delete	file="${file.service.xml}.tmp"/>
+	</target>
+
+	<!-- WS-TEST-CLIENT-JAR -->
+	<target name="dist-test-client" depends="compile">
+		<!-- jar stub -->
+		<ant target="jar.client" inheritAll="false" dir="${dir.srcgen}"/>
+		<copy file="${dir.srcgen}/build/lib/${svc.name}-test-client.jar" todir="${dir.dist}"/>
+	</target>
+	
+	<!-- WS-SERVER-AAR -->
+	<target name="dist-server" depends="compile">
+		<!-- jar skeleton -->
+		<ant target="jar.server" inheritAll="false" dir="${dir.srcgen}"/>
+		<copy file="${dir.srcgen}/build/lib/${svc.name}.aar" todir="${dir.dist}"/>
+	</target>				
+
+	<!-- ASSEMBLE-SERVER-DEV-WAR -->
+	<target name="assemble-server-dev-war" depends="conf-dev-wsdl, dist-dep, dist-server, dist-test-client, conf-dev-profile">
+		<delete file="${dir.dist}/${war.file}"/>		
+		<war destfile="${dir.dist}/${war.file}">
+			<fileset dir="${dir.web}">
+				<exclude name="/WEB-INF/conf/"/>	
+			</fileset>
+			<lib dir="${main.lib}/common" includes="*.jar"/>
+			<lib dir="${main.lib}/spring" includes="*.jar"/>
+			<lib dir="${main.lib}/oracle" includes="*.jar"/>
+			<lib dir="${main.lib}/axis2" includes="*.jar"/>
+			<lib dir="${main.lib}/rampart" includes="*.jar"/>			
+			<classes dir="${dir.build}"/>							
+			<!-- additional libraries (dependencies) -->
+			<zipfileset dir="${dir.datalayer.dist}" prefix="WEB-INF/lib" includes="*.jar"/>								
+			<zipfileset dir="${dir.common.dist}" prefix="WEB-INF/lib" includes="*.jar"/>
+			<!-- include the ws implementation -->
+			<zipfileset dir="${dir.dist}" prefix="WEB-INF/services" includes="*.aar"/>
+			<zipfileset dir="${dir.web.config}" prefix="WEB-INF/conf" includes="ws-config.xml"/>
+			<zipfileset dir="${dir.web.config}" prefix="WEB-INF/conf" includes="axis2.xml"/>
+			<zipfileset dir="${dir.web.config}" prefix="WEB-INF/conf" includes="ws-dev.properties"/>
+		</war>
+		<delete file="${file.profile}"/>
+		<delete file="${dir.schema}/${svc.name}.wsdl"/>
+	</target>
+		
+	<!-- ASSEMBLE-SERVER-PROD-WAR -->
+	<target name="assemble-server-prod-war" depends="conf-prod-wsdl, dist-dep, dist-server, dist-test-client, conf-prod-profile">
+		<delete file="${dir.dist}/${war.file}"/>		
+		<war destfile="${dir.dist}/${war.file}">
+			<fileset dir="${dir.web}">
+				<exclude name="/WEB-INF/conf/"/>	
+			</fileset>
+			<lib dir="${main.lib}/common" includes="*.jar"/>
+			<lib dir="${main.lib}/spring" includes="*.jar"/>
+			<lib dir="${main.lib}/oracle" includes="*.jar"/>
+			<lib dir="${main.lib}/axis2" includes="*.jar"/>
+			<lib dir="${main.lib}/rampart" includes="*.jar"/>			
+			<classes dir="${dir.build}"/>							
+			<!-- additional libraries (dependencies) -->
+			<zipfileset dir="${dir.datalayer.dist}" prefix="WEB-INF/lib" includes="*.jar"/>								
+			<zipfileset dir="${dir.common.dist}" prefix="WEB-INF/lib" includes="*.jar"/>
+			<!-- include the ws implementation -->
+			<zipfileset dir="${dir.dist}" prefix="WEB-INF/services" includes="*.aar"/>
+			<zipfileset dir="${dir.web.config}" prefix="WEB-INF/conf" includes="ws-config.xml"/>
+			<zipfileset dir="${dir.web.config}" prefix="WEB-INF/conf" includes="axis2.xml"/>
+			<zipfileset dir="${dir.web.config}" prefix="WEB-INF/conf" includes="ws-prod.properties"/>
+		</war>
+		<delete file="${file.profile}"/>
+		<delete file="${dir.schema}/${svc.name}.wsdl"/>
+	</target>
+	
+	<!-- ASSEMBLE-CLIENT-JAR -->
+	<target name="assemble-client-jar" depends="dist-server, dist-test-client">
+		<delete file="${dir.dist}/${jar.client.file}"/>
+		<jar destfile="${dir.dist}/${jar.client.file}" basedir="${dir.build}">	
+			<zipfileset file="${dir.config}/policy.xml" prefix="META-INF"/>
+		</jar>
+	</target>
+	
+	<!-- DIST-PROD -->
+	<target name="dist-prod" depends="assemble-server-prod-war, assemble-client-jar">
+	</target>
+				
+	<!-- DIST-DEV -->
+	<target name="dist-dev" depends="assemble-server-dev-war, assemble-client-jar">
+	</target>
+		
+	<!-- CONF DEVELOPMENT -->
+	<target name="conf-dev-profile" depends="init">
+		<xslt 	in="${file.template.profile}"
+				out="${file.profile}"
+				style="${ss.file.dev.profile}"
+				force="true"/>
+	</target>
+					
+	<!-- CONF PRODUCTION -->
+	<target name="conf-prod-profile" depends="init">
+		<xslt 	in="${file.template.profile}"
+				out="${file.profile}"
+				style="${ss.file.prod.profile}"
+				force="true"/>
+	</target>
+
+	<!-- CLEAN -->
+	<target name="clean" depends="init" description="Clean gsisws.">		
+		<!-- Clean the module -->
+		<delete dir="${dir.build}"/>
+		<delete dir="${dir.dist}"/>
+		<delete dir="${dir.srcgen}"/>
+		<delete file="${file.profile}"/>
+		<delete file="${dir.schema}/${svc.name}.wsdl"/>
+	</target>	
+	
+	<!-- CLEAN-LOCAL-SERVER -->
+	<target depends="init" description="Clean gsisws app from local server." name="clean-server">
+		<ant target="t-local-undeploy" inheritAll="false" dir="${dir.gsisws}"/>
+	</target>
+	
+</project>

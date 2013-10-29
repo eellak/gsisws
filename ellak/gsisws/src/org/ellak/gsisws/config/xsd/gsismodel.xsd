@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns="http://parameters.services.gsisws/"
+			targetNamespace="http://parameters.services.gsisws/"
+			elementFormDefault="qualified"
+			xml:lang="gr">
+			
+	<xsd:complexType name="GsisRegisrtyInfoType">
+		<xsd:annotation>
+			<xsd:documentation>Gsis Registry Data</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>			
+			<xsd:element name="taxId" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>AFM</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="municipality" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Enterprise's municipality</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			<xsd:element name="postalAddress" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Enterprise's postal address</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			<xsd:element name="postalAddressNo" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Enterprise's postal address number</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			<xsd:element name="zipCode" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Enterprise's premises zip code</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="phone" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Enterprise's phone</xsd:documentation>
+				</xsd:annotation>			
+			</xsd:element>
+			<xsd:element name="startDate" type="xsd:dateTime" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Start date of enterprise</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			<xsd:element name="endDate" type="xsd:dateTime" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>End date of enterprise</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="enterpriseTitle" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Enterprise title</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="taxOfficeId" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Tax office code of Enterprise</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			<xsd:element name="taxOfficeDescr" type="xsd:string" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Tax office description of Enterprise</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			<xsd:element name="activationStatus" type="xsd:integer" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Enterprise status: 0=not-Activated, 1=Activated</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>					
+			<xsd:element name="notes" type="xsd:string" minOccurs="0" nillable="true">
+				<xsd:annotation>
+					<xsd:documentation>Free text</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			<xsd:element name="errorCode" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>WS call return code: 0=success, other(!=0)=Failure</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>							
+			<xsd:element name="errorDescription" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>When errorCode!=0, describe the reason</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>				
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="queryByTaxIdRequest">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>Wrapper WS request</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="regisrty" type="GsisRegisrtyInfoType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="queryByTaxIdResponse">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>Wrapper WS response</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>					
+				<xsd:element name="regisrty" type="GsisRegisrtyInfoType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+		
+</xsd:schema>

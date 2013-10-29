@@ -1,0 +1,388 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+html, body {
+	height: 100%;
+	width:100%;
+}
+
+
+html {
+	
+    overflow-y: scroll;
+    overflow-x:hidden;
+	min-width: 1000px;
+	filter: expression(document.execCommand("BackgroundImageCache", false, true));    
+}
+
+body {
+	font-family: Arial, Helvetica, "Trebuchet MS", sans-serif;
+	font-size: 8.0pt;
+	color: #6B6B6B;
+	background-color:#fff;
+	background-image:url(../images/lr_shadows.gif);
+	background-repeat:repeat-y;
+	background-position:center;
+	/*background-attachment: fixed;*/ 
+}
+
+
+input,textarea {
+	padding: 2px 5px;
+	border: 1px solid #EBEBEB;
+	font: bold 12px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #6B6B6B;
+}
+
+h1,h2,h3,h4 {
+	margin: 0px;
+}
+
+h2,h3,h4 {
+	margin-bottom: 20px;
+	padding-bottom: 9px;
+	border-bottom: 1px solid #F2F2F2;
+	/*letter-spacing: -0.035em;*/
+	font-weight: normal;
+	color: #37404C;
+}
+
+h2 {
+	font-size: 20pt;
+	font-weight: bold;
+	background: url(../images/espa.png) no-repeat;
+	padding-left:34px;
+	vertical-align: middle;
+}
+h2.welcome{
+	background: transparent;
+	padding:0px;
+	margin-bottom:30px;
+	border:0px;
+	font-size:30px;
+	color:#000;
+	}
+h2.desc,h2.dev
+{
+	background: url(../images/espa.png) no-repeat;
+}
+
+
+h3 {
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+h4 {
+	font-size: 12pt;
+	font-weight: bold;
+	border:0px;
+	margin-bottom: 5px;
+	
+}
+
+p,ul,ol {
+	margin-bottom: 1.5em;
+	line-height: 170%;
+	text-align: justify;
+}
+
+ul,ol {
+	margin-left: 3em;
+}
+
+blockquote {
+	margin-left: 3em;
+	margin-right: 3em;
+}
+
+a {
+	color: #FF5A00;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a img {
+	border: none;
+}
+
+table.details td{
+	width: 100%;
+	font-size: 8pt;
+}
+
+table.details ul  {
+	color: #000;
+	margin-bottom:4px;
+	border-collapse: collapse;
+}
+
+
+table.details td.label {
+	width:150px;
+	color: #000;
+	font-weight: bold;
+	vertical-align: top;
+	text-align:center;
+}
+
+table.docTable {
+	/*border-collapse: collapse;*/
+	width:100%;
+}
+
+table.docTable th{
+	background-color:#E3F0FF; /*#F3FFD8;*/
+	color:#000;
+	font-size: 9pt;
+	border:1px solid #64B1FF; /*#FE7E00;*/
+	text-align:center;
+	font-weight:normal;
+}
+table.docTable th.headerGroup{
+	font-size:14pt;
+	height:32px;
+	text-align:center;
+}
+table.docTable td{
+	font-size: 8pt;
+	border:1px solid #64B1FF; /*#FE7E00;*/
+	text-align:center;
+}
+table.docTable td.label {
+	background-color:#EBF3FC; /*#F3FFD8;*/
+	color:#000;
+	font-weight: bold;
+	vertical-align: middle;
+	text-align:center;
+}
+			
+
+
+
+/* containers */
+
+
+#container{
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	width:1000px;
+	margin: 0 auto -80px auto; /* the bottom margin is the negative value of the footer's height */
+}
+
+
+#content{
+	width:940px;
+	margin:0 30px 0 30px;  /* why does it happen? */
+	overflow:hidden;
+}
+
+
+/* header */
+#header {
+	height: 179px;
+	background: url(../images/espa_head_Greek.jpg) no-repeat;
+}
+
+/* logo */
+#logo {
+	float: left;
+}
+
+#logo h1 {
+	background: url(../images/logo.jpg) no-repeat;
+}
+
+#logo h1 a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+/* menu */
+#top-menu {
+	clear: both;
+	float: left;
+	display: block;
+	width: 100%;
+	background-color: #fff;
+	height: 36px;
+}
+
+
+
+/* footer */
+#footer-container, #push {
+	height: 80px; /* #push must be the same height as #footer */
+}
+#footer-container {
+	margin:0 auto 0 auto;
+	width:1000px; /* same as  container's width */ 
+}
+#footer {
+	height: 80px; 
+	margin:0 28px 0 32px;  /* same as content's width */
+	background: url(../images/footer_t.jpg) no-repeat;
+}
+
+
+#footer p {
+	margin: 30px 0 0 10px;
+	line-height:17px; 
+	vertical-align:middle;
+	color:#fff;
+}
+
+
+#footer p img { 
+	margin: 0px 0 0 4px;
+	vertical-align: middle; 
+}
+#footer a {
+	color: #666666;
+}
+
+
+div.placeholder {
+	float: left; 
+	padding: 0px;
+	width: 470px;
+}
+
+
+.title {
+	height: 28px;
+	color: #808080;
+}
+
+div.post {
+	margin-top: 50px;
+	text-align: justify;
+	font-size: 9pt;
+	width: 100%;
+}
+
+div.post .title a {
+	text-decoration: none;
+	color: #37404C;
+}
+
+div.post .title a:hover {
+	text-decoration: underline;
+}
+
+div.post .meta {
+	
+	margin: 0;
+	padding: 10px;
+	line-height: normal;
+}
+
+div.post li{
+	list-style-type:disc;
+	margin-top:2px;
+}
+div.post a, div.post .meta .permalink {
+	padding-left: 17px;
+	background: url(../images/img09.gif) no-repeat left center;
+}
+
+/* Widebar */
+#widebar {
+	margin: 0 50px;
+	padding: 25px 28px 0 28px;
+	/*background: #F2F2F2 url(../images/block-back.gif) repeat-x;*/
+	
+}
+
+#widebar #colA {
+	float: left;
+	width: 260px;
+}
+
+#widebar #colB {
+	float: left;
+	width: 260px;
+	padding-left: 45px;
+}
+
+#widebar #colC {
+	float: left;
+	width: 186px;
+	padding-left: 45px;
+}
+
+
+span.attention {
+	font-weight:bold;
+	color:#FF0000;
+}
+p.note {
+	font-weight:normal;
+}
+
+pre {
+	border:1px solid #FE7E00;
+	font-size: 1.3em; 
+ 	color: blue; 
+	margin: 10px; 
+	padding:10px; 
+	background: #F3FFD8;
+}
+code {font-size:8pt; 
+	color: #008099}
+	
+code.large {font-size:10pt;}
+
+p.message {
+	background: #ffffe1 url(../images/warning.png) no-repeat 1px 50%;
+	height:70px; 
+	line-height:22px; 
+	vertical-align:middle; 
+	padding:0px 4px 0px 18px;
+	font-weight:bold;
+	border:1px solid #fe7e00;
+}	
+
+div.mainBox {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 75%;
+  background-color: #f3ffd8;
+  border:1px solid #FE7E00;
+  position: relative;
+  padding-left: 5em;
+  
+}
+
+
+div.mainBox  p{
+	
+  	height: 5.5em; display: table-cell; vertical-align: middle
+}
+div.mainBox span + p a {
+  font-size: 1.5em;
+  color: #6B6B6B;
+  background:none;
+  text-decoration: none;
+  
+}
+
+div.mainBox span + p a:hover {
+  text-decoration: underline;
+}
+
+div.mainBox span.bignumber {
+  position: absolute;
+  color: #FE7E00;
+  left: 0.25em;
+  font-size: 5em;
+}
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 	
+		Author: George Lamprakis (glam)
+		Date: Oct 28, 2013
+		Description: datalayer module build file.
+		Info:
+			app.name: The module name
+			dir.src: Source dir for the pure java compilation.
+			dir.build: Destination dir for the pure java compilation.
+			dir.dist: the distribution file according to J2EE definition (jar) ...
+			dir.lib: Libraries used by the core module.
+			main.lib: Libraries used by the all modules.
+			dir.common: The common module main dir.			
+			dir.common.build: The common module build dir.			
+-->
+<project basedir="." default="dist" name="Datalayer module">
+	<description>Datalayer module</description>
+	<!-- INITIALIZATION -->
+	<target name="init">
+		<property file="${basedir}/build.properties"/>
+		<property name="dir.src"         				value="${basedir}/src"/>
+		<property name="dir.build"         				value="${basedir}/build"/>
+		<property name="dir.dist"						value="${basedir}/dist"/>
+		<!-- libraries -->
+		<property name="main.lib" 						value="${basedir}/../lib"/>
+		<!-- dependencies -->
+		<property name="dir.common" 					value="${basedir}/../common"/>	
+		<!-- dependencies build -->
+		<property name="dir.common.build" 				value="${basedir}/../common/build"/>				
+		<!-- distros -->
+		<property name="jar.file"						value="${app.name}.jar"/>
+		<!-- create the output dirs -->
+		<mkdir dir="${dir.build}"/>
+		<mkdir dir="${dir.dist}"/>
+		<!-- define the classpath -->
+		<path id="classpath.all">
+			<fileset dir="${main.lib}">
+				<include name="**/*.jar"/>
+			</fileset>
+			<pathelement path="${dir.build}"/>			
+			<pathelement path="${dir.common.build}"/>		
+		</path>
+	</target>
+	
+	<!-- COMPILE -->
+	<target name="compile" depends="init, compile-dep">			
+		<javac debug="true" deprecation="true" destdir="${dir.build}" encoding="UTF-8">
+			<classpath>
+				<path refid="classpath.all"/>
+			</classpath>
+			<src>
+				<pathelement path="${dir.src}"/>
+			</src>
+		</javac>		
+	</target>
+	
+	<!-- COMPILE-DEPENDENCIES -->
+	<target name="compile-dep" depends="init">
+		<ant dir="${dir.common}" inheritAll="false" target="compile"/>	    
+	</target>
+
+	<!-- ASSEMBLE-JAR -->
+	<target name="assemble-jar" depends="compile">
+		<delete file="${dir.dist}/${jar.file}"/>	
+		<jar destfile="${dir.dist}/${jar.file}" basedir="${dir.build}">
+			<zipfileset dir="${dir.src}/org/ellak/datalayer/config" prefix="org/ellak/datalayer/config" includes="datalayer-config.xml"/>			
+		</jar>						
+	</target>
+
+	<!-- DIST -->
+	<target name="dist" depends="assemble-jar"/>
+	
+	<!-- CLEAN -->
+	<target name="clean" depends="init" description="Clean datalayer.">		
+		<!-- Clean the module -->
+		<delete dir="${dir.build}"/>
+		<delete dir="${dir.dist}"/>	
+	</target>	
+	
+</project>

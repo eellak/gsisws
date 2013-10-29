@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Author: George Lamprakis Oct 28 2013 -->
+<project basedir="." default="dist-prod" name="esub4pde modules">
+
+  <!-- INITIALIZATION -->
+  <target name="init">
+      <property file="${basedir}/build.properties"/>
+      <property name="dir.dist"				value="${basedir}/dist"/>
+      <property name="dir.gsisws"			value="${basedir}/gsisws"/>  	 
+      <mkdir dir="${dir.dist}"/>                 
+  </target>
+
+  <!-- DIST-PROD -->
+  <target name="dist-prod">
+	<ant target="dist-prod-all" inheritAll="true"/>
+  	<ant target="copy-all" inheritAll="true"/>
+  </target>
+	
+  <!-- DIST-DEV -->
+  <target name="dist-dev">
+	<ant target="dist-dev-all" inheritAll="true"/>
+ 	<ant target="copy-all" inheritAll="true"/>
+  </target>  
+
+  <!-- DIST-PROD-ALL -->
+  <target depends="init" name="dist-prod-all">
+    <echo message="CREATING PROD DISTRO FOR GSIS WS ..."/>
+	<ant target="dist-prod" inheritAll="false" dir="${dir.gsisws}"/>	
+  </target>
+	
+  <!-- DIST-DEV-ALL -->
+  <target depends="init" name="dist-dev-all">
+    <echo message="CREATING DEV DISTRO FOR GSIS WS ..."/>
+	<ant target="dist-dev" inheritAll="false" dir="${dir.gsisws}"/>	
+  </target>
+
+  <!-- COPY-ALL -->
+  <target depends="init" name="copy-all">
+    <copy overwrite="true" todir="${dir.dist}">
+      <fileset dir="${dir.gsisws}/dist"/>      
+    </copy>
+  </target>
+
+  <!-- CLEAN -->
+  <target depends="init" description="Clean all build products." name="clean">
+    <ant target="clean" inheritAll="false" dir="${dir.gsisws}"/>    
+    <delete dir="${dir.dist}"/>
+  </target>
+	
+  <!-- CLEAN-SERVER -->
+  <target depends="init" description="Clean all server apps." name="clean-server">
+    <ant target="t-local-undeploy" inheritAll="false" dir="${dir.gsisws}"/>   
+  </target>
+
+  <target name="usage">
+	        <echo message=""/>
+	        <echo message="ellak modules build file"/>
+	        <echo message="-----------------------------------"/>
+	        <echo message=""/>
+	        <echo message="Available targets are:"/>
+	        <echo message=""/>
+	        <echo message="dist      		--> Makes components distros and copies them in dist directory."/>
+	        <echo message="dist-prod-all  	--> Makes components production distros"/>
+  			<echo message="dist-dev-all   	--> Makes components development distros"/>
+	        <echo message="clean     		--> Removes all producable files/dirs."/>
+	        <echo message="copy-all  		--> Copies all the producables to the main dist dir."/>
+	        <echo message=""/>
+  </target>
+
+</project>

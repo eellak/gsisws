@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns="http://parameters.services.accws.mou/"
+			targetNamespace="http://parameters.services.accws.mou/"
+			elementFormDefault="qualified"
+			xml:lang="gr">
+			
+	<xsd:complexType name="CompanyInfoType">
+		<xsd:annotation>
+			<xsd:documentation>Company Data</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>			
+  
+			<xsd:element name="ent_name" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company Name</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="ent_title" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company Title</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+						
+			<xsd:element name="ent_kad" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company KAD</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="ent_afm" type="xsd:string" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Company AFM</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="ent_doy_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company DOY</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_tomeas" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company Tomeas</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_ypo_systash" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company Systash</xsd:documentation>
+				</xsd:annotation>				
+			</xsd:element>		
+			
+			<xsd:element name="ent_nomikh_morfh" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Nomikh Morfh</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>					
+			
+			<xsd:element name="ent_employees_num" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Employees Num</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="ent_xor_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Kodikos Xoras</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="ent_per_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Kodikos Perifereias</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>					
+						
+			<xsd:element name="ent_dhm_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Kodikos Dhmos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="ent_dd_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Kodikos Dhm.Diam.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_odos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Odos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_arithmos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Arithmos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_tk" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's TK</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_tel" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Phone Num</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_fax" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Fax</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_email" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Email</xsd:documentation>
+				</xsd:annotation>				
+			</xsd:element>	
+			
+			<xsd:element name="ent_website" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Website</xsd:documentation>
+				</xsd:annotation>				
+			</xsd:element>	
+			
+			<xsd:element name="ent_surname_ekpr" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Surname Ekprosopou</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="ent_name_ekpr" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Name Ekprosopou</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_thesh_ekpr" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Thesh Ekprosopou</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+																							
+			<xsd:element name="ent_afm_ekpr" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's AFM Ekprosopou</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="ent_adt_ekpr" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's ADT Ekprosopou</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+
+			<xsd:element name="ent_mob_ekpr" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Mob Ekprosopou</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="ent_account_books" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Company's Account Books</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>																															
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CompanyType">
+		<xsd:annotation>
+			<xsd:documentation>A company</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CompanyInfo" type="CompanyInfoType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="IplanInfoType">
+		<xsd:annotation>
+			<xsd:documentation>Iplan Data</xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:sequence>						
+			
+			<xsd:element name="prj_ent_afm" type="xsd:string" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Company's AFM</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prj_ait_proyp" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's ait_proyp</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prj_epix_proyp" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's epix_proyp</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prj_enisx_proyp" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's enisx_proyp</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prj_poso_epix" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>prj_poso_epix</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>													
+			
+			<xsd:element name="prj_xor_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Kodikos Xoras</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prj_per_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Kodikos Perifereias</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prj_dhm_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Kodikos Dhmoy</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>				
+						
+			<xsd:element name="prj_dd_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Kodikos Dhm.Diam.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prj_odos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Odos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prj_arithmos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Arithmos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			
+			<xsd:element name="prj_tk" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's TK</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prj_tech_descr" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Tech Description</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+															
+			<xsd:element name="prj_type_enisx" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Type Enisxisis</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>																
+						
+			<xsd:element name="prj_prop_id" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's prop_id</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="prj_kodikos_forea" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Kodikos Forea</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			
+			<xsd:element name="prj_end_date" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's End Date</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prj_approval_date" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Approval Date</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			
+			<xsd:element name="finalize_flag" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's completion</xsd:documentation>
+				</xsd:annotation>				
+			</xsd:element>				
+			
+			<xsd:element name="prj_kathestos_kodikos" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's Kathestos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>								
+			
+			<xsd:element name="prj_it_code" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Iplan's IT code</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>								
+
+			<xsd:element name="company" type="CompanyType" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Company Info</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+																																	
+		
+		</xsd:sequence>
+	
+	</xsd:complexType>
+	
+	<xsd:complexType name="IplanType">
+		<xsd:annotation>
+			<xsd:documentation>A project plan</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IplanInfo" type="IplanInfoType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ProposalInfoType">
+		<xsd:annotation>
+			<xsd:documentation>Proposal Data</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>			
+			
+			<xsd:element name="prop_kps_kodikos" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's KPS Kodikos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prop_ep_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's EP Kodikos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prop_ypoprogr_kodikos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Aksonas Kodikos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>						
+			
+			<xsd:element name="prop_foreas_kodikos" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Foreas Kodikos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+				
+			<xsd:element name="prop_kodikos_prosklhshs" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Kodikos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>										
+								
+			<xsd:element name="prop_eidos_aksiologhshs" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Eidos Aksiologhshs</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prop_enarksh_ypobolhs" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Enarksh Ypobolhs</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>				
+			
+			<xsd:element name="prop_lhksh_ypobolhs" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Lhksh Ypobolhs</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="prop_periodos_ypobolhs" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Periodos Ypobolhs</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="prop_periodos_aksiologhshs" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Periodos Aksiologhshs</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prop_lhksh_epileksimothtas" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Lhksh Epileksimothtas</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prop_titlos" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Title</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			
+			<xsd:element name="prop_poso" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Poso</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prop_ar_protokol" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Arithmos Protokoloy</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>										
+									
+			<xsd:element name="prop_hmerom_protokol" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Hmerom Protokol</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>		
+			
+			<xsd:element name="prop_hmeromhnia_oloklhroshs" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Hmerom Oloklhroshs</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			
+			<xsd:element name="prop_kathestos_kodikos" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Kathestos</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>	
+			
+			<xsd:element name="prop_enarksh_epileksimothtas" type="xsd:date" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's Enarksh Epileksimothtas</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
+			
+			<xsd:element name="prop_kath_ar_koinop" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's kath_ar_koinop</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>												
+				
+			<xsd:element name="prop_kath_ar_apofashs" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Proposal's kath_ar_apofashs</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>					
+
+			<xsd:element name="Iplan" type="IplanType" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Iplan Info</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>																															
+	
+		</xsd:sequence>
+	
+	</xsd:complexType>
+	
+	<xsd:complexType name="ProposalType">
+		<xsd:annotation>
+			<xsd:documentation>A proposal</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ProposalInfo" type="ProposalInfoType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="insertIPlanRequest">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>Wrapper WS request</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="iplanrequest" type="ProposalType"/>	
+				<xsd:element name="errorCode" type="xsd:integer"/>			
+				<xsd:element name="errorDescription" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+		
+</xsd:schema>
