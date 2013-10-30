@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Author: George Lamprakis Oct 28 2013 -->
-<project basedir="." default="dist-prod" name="esub4pde modules">
+<project basedir="." default="dist-prod" name="ellak modules">
 
   <!-- INITIALIZATION -->
   <target name="init">
