@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @date Oct 28, 2013
  */
 @Service("gsisRegistryService")
-public class GsisRegistryServiceImpl implements GsisRegistryService {
+public class GsisRegistryServiceImpl implements IGsisRegistryService {
 	//------------------------------------------------------------------------
 	@Autowired
     private GsisRegistryDao gsisRegistryDao;
