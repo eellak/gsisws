@@ -8,8 +8,7 @@ package org.ellak.common.context;
 public class ServiceLocator {
 	//-------------------------------------------------------------------------------	
 	public static Object locate(String serviceName) {
-		Object service = AppContext.getApplicationContext().getBean(serviceName);
-		return service;		
+		return AppContext.getApplicationContext().getBean(serviceName);
 	}
 	//-------------------------------------------------------------------------------
 }
