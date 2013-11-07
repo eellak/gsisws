@@ -9,22 +9,20 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 
 import org.apache.ws.security.WSPasswordCallback;
 import org.apache.ws.security.WSSecurityException;
-import org.ellak.common.context.ServiceLocator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 //---------------------------------------------------------------------------------------
 /**
  * @author George Lamprakis
  * @date Oct 28, 2013
  */
-public class PasswordCallbackHandler implements CallbackHandler {
+public class PasswordCallbackHandler extends SpringBeanAutowiringSupport implements CallbackHandler {
 	//---------------------------------------------------------------------------------------
-	private boolean authenticate(String username, String password) throws Exception {
-		/*
-		 *  This call for service location may change with AOP approach.
-		 *  Spring (@Configurable) across with AspectJ would be an excellent
-		 *  choice but we have to check the compatibility with GSIS Weblogic farm. 
-		 */
-		UserPwdAuthenticatorImpl auth = (UserPwdAuthenticatorImpl)ServiceLocator.locate("gsisWsAuthService");
-		return auth.authenticate(username, password);
+	@Autowired
+	UserPwdAuthenticatorImpl gsisWsAuthService;
+	//---------------------------------------------------------------------------------------
+	private boolean authenticate(String username, String password) throws Exception {			
+		return gsisWsAuthService.authenticate(username, password);
 	}
 	//---------------------------------------------------------------------------------------
 	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {

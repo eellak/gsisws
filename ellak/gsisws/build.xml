@@ -433,7 +433,7 @@
 	</target>
 
 	<!-- CLEAN -->
-	<target name="clean" depends="init" description="Clean gsisws.">		
+	<target name="clean" depends="init, clean-dep" description="Clean gsisws.">		
 		<!-- Clean the module -->
 		<delete dir="${dir.build}"/>
 		<delete dir="${dir.dist}"/>
@@ -441,6 +441,12 @@
 		<delete file="${file.profile}"/>
 		<delete file="${dir.schema}/${svc.name}.wsdl"/>
 	</target>	
+	
+	<!-- CLEAN-DEP -->
+	<target name="clean-dep" depends="init" description="Clean dependencies of gsisws.">		
+		<ant dir="${dir.common}" inheritAll="false" target="clean"/>	   
+		<ant dir="${dir.datalayer}" inheritAll="false" target="clean"/>
+	</target>
 	
 	<!-- CLEAN-LOCAL-SERVER -->
 	<target depends="init" description="Clean gsisws app from local server." name="clean-server">

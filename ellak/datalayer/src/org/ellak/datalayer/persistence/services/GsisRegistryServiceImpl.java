@@ -3,7 +3,7 @@ package org.ellak.datalayer.persistence.services;
 //------------------------------------------------------------------------
 import org.ellak.datalayer.persistence.dao.GsisRegistryDao;
 import org.ellak.datalayer.persistence.model.GsisRegistryEntryDTO;
-import org.ellak.datalayer.persistence.services.interfaces.GsisRegistryService;
+import org.ellak.datalayer.persistence.services.interfaces.IGsisRegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 //------------------------------------------------------------------------
@@ -17,8 +17,8 @@ public class GsisRegistryServiceImpl implements IGsisRegistryService {
 	@Autowired
     private GsisRegistryDao gsisRegistryDao;
 	//------------------------------------------------------------------------
-    public GsisRegistryEntryDTO fetchByTaxId(GsisRegistryEntryDTO filter){
-    	return gsisRegistryDao.fetchByTaxId(filter);
+    public GsisRegistryEntryDTO fetchByTaxId(String taxId){
+    	return gsisRegistryDao.fetchByTaxId(taxId);
     }
 	//---------------------------------------------------------------------
 }

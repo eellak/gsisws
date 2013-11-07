@@ -2,6 +2,7 @@
 package org.ellak.datalayer.persistence.model;
 //--------------------------------------------------------------------------
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 //--------------------------------------------------------------------------
 /**
@@ -12,58 +13,54 @@ public class  GsisRegistryEntryDTO  implements Serializable {
 	//--------------------------------------------------------------------------
     private static final long serialVersionUID = 3335239994225810763L;
     //--------------------------------------------------------------------------      
-    private int activationStatus;	
-	private Calendar endDate;
-	private String enterpriseTitle;
-	private int errorCode;
-	private String errorDescription;
-	private String municipality;
-	private String notes;
-	private String phone;
+    private String taxId; // The taxId of the Firm
+    private String deactivationFlag; //- 	    
+	private String deactivationFlagDescr;
+	private String firmName;
+	private String firmTitle;
+	private String firmFlagDescr;
+	private String legalStatusDescr;
+	private String iniFlagDescr;		
+	private String region;
 	private String postalAddress;
 	private String postalAddressNo;
-	private Calendar startDate;
-	private String taxId;
-	private String taxOfficeDescr;
-	private String taxOfficeId;
 	private String zipCode;
+	private String startDate;
+	private String endDate;
+	private String taxOfficeId;	
+	private String taxOfficeDescr;	
+	private String errorCode;
+	private String errorDescription;
+	private ArrayList<FirmActivityDTO> firmActivities;
 	//--------------------------------------------------------------------------    
     public GsisRegistryEntryDTO() {
     }
 	//--------------------------------------------------------------------------
     public GsisRegistryEntryDTO(String taxId) {
     	this.taxId = taxId;
-    }
-	//--------------------------------------------------------------------------
-    public int getActivationStatus() {
-		return activationStatus;
-	}
+    }  
     //--------------------------------------------------------------------------
-	public void setActivationStatus(int activationStatus) {
-		this.activationStatus = activationStatus;
-	}
-    //--------------------------------------------------------------------------
-	public Calendar getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
     //--------------------------------------------------------------------------
-	public void setEndDate(Calendar endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
     //--------------------------------------------------------------------------
-	public String getEnterpriseTitle() {
-		return enterpriseTitle;
+	public String getFirmTitle() {
+		return firmTitle;
 	}
     //--------------------------------------------------------------------------
-	public void setEnterpriseTitle(String enterpriseTitle) {
-		this.enterpriseTitle = enterpriseTitle;
+	public void setFirmTitle(String firmTitle) {
+		this.firmTitle = firmTitle;
 	}
     //--------------------------------------------------------------------------
-	public int getErrorCode() {
+	public String getErrorCode() {
 		return errorCode;
 	}
     //--------------------------------------------------------------------------
-	public void setErrorCode(int errorCode) {
+	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
     //--------------------------------------------------------------------------
@@ -75,28 +72,28 @@ public class  GsisRegistryEntryDTO  implements Serializable {
 		this.errorDescription = errorDescription;
 	}
     //--------------------------------------------------------------------------
-	public String getMunicipality() {
-		return municipality;
+	public String getRegion() {
+		return region;
 	}
     //--------------------------------------------------------------------------
-	public void setMunicipality(String municipality) {
-		this.municipality = municipality;
+	public void setRegion(String region) {
+		this.region = region;
 	}
     //--------------------------------------------------------------------------
-	public String getNotes() {
-		return notes;
+	public String getLegalStatusDescr() {
+		return legalStatusDescr;
 	}
     //--------------------------------------------------------------------------
-	public void setNotes(String notes) {
-		this.notes = notes;
+	public void setLegalStatusDescr(String legalStatusDescr) {
+		this.legalStatusDescr = legalStatusDescr;
 	}
     //--------------------------------------------------------------------------
-	public String getPhone() {
-		return phone;
+	public String getFirmName() {
+		return firmName;
 	}
     //--------------------------------------------------------------------------
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setFirmName(String firmName) {
+		this.firmName = firmName;
 	}
     //--------------------------------------------------------------------------
 	public String getPostalAddress() {
@@ -115,11 +112,11 @@ public class  GsisRegistryEntryDTO  implements Serializable {
 		this.postalAddressNo = postalAddressNo;
 	}
     //--------------------------------------------------------------------------
-	public Calendar getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
     //--------------------------------------------------------------------------
-	public void setStartDate(Calendar startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
     //--------------------------------------------------------------------------
@@ -154,6 +151,54 @@ public class  GsisRegistryEntryDTO  implements Serializable {
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}    
+    //--------------------------------------------------------------------------
+	public ArrayList<FirmActivityDTO> getFirmActivities() {
+		return firmActivities;
+	}
+    //--------------------------------------------------------------------------
+	public void setFirmActivities(ArrayList<FirmActivityDTO> firmActivities) {
+		this.firmActivities = firmActivities;
+	}
+    //--------------------------------------------------------------------------
+	public void addFirmActivity(FirmActivityDTO firmActivity){
+		this.firmActivities.add(firmActivity);
+	}
+    //--------------------------------------------------------------------------
+	public int firmActivitiesSize(){
+		return this.firmActivities.size();
+	}
+    //--------------------------------------------------------------------------
+	public String getFirmFlagDescr() {
+		return firmFlagDescr;
+	}
+    //--------------------------------------------------------------------------
+	public void setFirmFlagDescr(String firmFlagDescr) {
+		this.firmFlagDescr = firmFlagDescr;
+	}
+    //--------------------------------------------------------------------------
+	public String getDeactivationFlag() {
+		return deactivationFlag;
+	}
+    //--------------------------------------------------------------------------
+	public void setDeactivationFlag(String deactivationFlag) {
+		this.deactivationFlag = deactivationFlag;
+	}
+    //--------------------------------------------------------------------------
+	public String getDeactivationFlagDescr() {
+		return deactivationFlagDescr;
+	}
+    //--------------------------------------------------------------------------
+	public void setDeactivationFlagDescr(String deactivationFlagDescr) {
+		this.deactivationFlagDescr = deactivationFlagDescr;
+	}
+    //--------------------------------------------------------------------------
+	public String getIniFlagDescr() {
+		return iniFlagDescr;
+	}
+    //--------------------------------------------------------------------------
+	public void setIniFlagDescr(String iniFlagDescr) {
+		this.iniFlagDescr = iniFlagDescr;
+	}
     //--------------------------------------------------------------------------
 }
 //------------------------------------------------------------------------------
